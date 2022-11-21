@@ -4,20 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <ImageButton
-        android:id="@+id/camera"
-        android:layout_width="98dp"
-        android:layout_height="82dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/camera_foreground" />
-
     <ImageView
         android:id="@+id/photo"
         android:layout_width="347dp"
         android:layout_height="528dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp" />
+
+    <ImageButton
+        android:id="@+id/camera"
+        android:layout_width="98dp"
+        android:layout_height="82dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/camera_foreground" />
 
 </LinearLayout>

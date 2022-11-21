@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.cameraButton.setOnClickListener(view -> {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                this.getCamera();
+                this.createIntent();
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_TAKE_PHOTO);
             }
@@ -48,22 +48,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == REQUEST_CODE_TAKE_PHOTO) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                this.getCamera();
-
+                this.createIntent();
             } else {
                 Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
             }
         }
 
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 
-    ActivityResultLauncher<Intent> startCamera = registerForActivityResult(
+    ActivityResultLauncher<Intent> cameraResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -75,11 +73,11 @@ public class MainActivity extends AppCompatActivity {
             }
     );
 
-    public void getCamera() {
+    public void createIntent() {
         this.cameraUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, this.cameraUri);
 
-        startCamera.launch(cameraIntent);
+        cameraResultLauncher.launch(cameraIntent);
     }
 }
